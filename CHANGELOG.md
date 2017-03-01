@@ -2,6 +2,8 @@
   - Changes from 5.6
     - Internals
       - Shared memory notification via conditional variables on Linux or semaphore queue on OS X and Windows with a limit of 128 OSRM Engine instances
+    - NodeJs Bindings
+      - Merged https://github.com/Project-OSRM/node-osrm into repository. Build via `cmake .. -DCMAKE_BUILD_TYPE=Release -DENABLE_NODE_BINDINGS=On -DENABLE_MASON=On`.
 
 # 5.6.2
   - Changes from 5.6.0
