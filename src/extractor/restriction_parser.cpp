@@ -54,8 +54,9 @@ RestrictionParser::RestrictionParser(ScriptingEnvironment &scripting_environment
  * in the corresponding profile. We use it for both namespacing restrictions, as in
  * restriction:motorcar as well as whitelisting if its in except:motorcar.
  */
+template <typename objectT>
 boost::optional<InputRestrictionContainer>
-RestrictionParser::TryParse(const osmium::Relation &relation) const
+RestrictionParser::TryParse(const objectT &osmium_type) const
 {
     // return if turn restrictions should be ignored
     if (!use_turn_restrictions)
@@ -70,7 +71,7 @@ RestrictionParser::TryParse(const osmium::Relation &relation) const
     for (const auto &namespaced : restrictions)
         filter.add(true, "restriction:" + namespaced);
 
-    const osmium::TagList &tag_list = relation.tags();
+    const osmium::TagList &tag_list = osmium_type.tags();
 
     osmium::tags::KeyFilter::iterator fi_begin(filter, tag_list.begin(), tag_list.end());
     osmium::tags::KeyFilter::iterator fi_end(filter, tag_list.end(), tag_list.end());
@@ -82,7 +83,7 @@ RestrictionParser::TryParse(const osmium::Relation &relation) const
     }
 
     // check if the restriction should be ignored
-    const char *except = relation.get_value_by_key("except");
+    const char *except = osmium_type.get_value_by_key("except");
     if (except != nullptr && ShouldIgnoreRestriction(except))
     {
         return {};
