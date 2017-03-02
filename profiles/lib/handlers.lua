@@ -196,14 +196,14 @@ function Handlers.handle_hov(way,result,data,profile)
       result.backward_restricted = true
     end
     return
-  end
-
-  -- filter out ways where all lanes are hov only
-  if all_hov_forward then
-    result.forward_mode = mode.inaccessible
-  end
-  if all_hov_backward then
-    result.backward_mode = mode.inaccessible
+  else
+    -- filter out ways where all lanes are hov only
+    if all_hov_forward then
+      result.forward_mode = mode.inaccessible
+    end
+    if all_hov_backward then
+      result.backward_mode = mode.inaccessible
+    end
   end
 end
 
@@ -291,8 +291,6 @@ end
 
 -- scale speeds to get better average driving times
 function Handlers.handle_penalties(way,result,data,profile)
-  -- heavily penalize a way tagged with all HOV lanes
-  -- in order to only route over them if there is no other option
   local service_penalty = 1.0
   local service = way:get_value_by_key("service")
   if service and profile.service_penalties[service] then

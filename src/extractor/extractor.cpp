@@ -193,7 +193,8 @@ int Extractor::run(ScriptingEnvironment &scripting_environment)
                                                   restriction_parser,
                                                   resulting_nodes,
                                                   resulting_ways,
-                                                  resulting_restrictions);
+                                                  resulting_restrictions,
+                                                  resulting_conditional_restrictions);
 
             number_of_nodes += resulting_nodes.size();
             // put parsed objects thru extractor callbacks

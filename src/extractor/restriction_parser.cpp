@@ -56,7 +56,8 @@ RestrictionParser::RestrictionParser(ScriptingEnvironment &scripting_environment
  */
 template <typename objectT>
 boost::optional<InputRestrictionContainer>
-RestrictionParser::TryParse(const objectT &osmium_type) const
+RestrictionParser::TryParse(const osmium::Relation &relation,
+                            const std::vector<std::string> &patterns) const
 {
     // return if turn restrictions should be ignored
     if (!use_turn_restrictions)
@@ -65,7 +66,9 @@ RestrictionParser::TryParse(const objectT &osmium_type) const
     }
 
     osmium::tags::KeyFilter filter(false);
-    filter.add(true, "restriction");
+    patterns.for_each(patterns.begin(), patterns.end(), [&filter](const &pattern) {
+        filter.add(true, pattern);
+    });
 
     // Not only use restriction= but also e.g. restriction:motorcar=
     for (const auto &namespaced : restrictions)
