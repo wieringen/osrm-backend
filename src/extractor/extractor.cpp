@@ -170,6 +170,7 @@ int Extractor::run(ScriptingEnvironment &scripting_environment)
         tbb::concurrent_vector<std::pair<std::size_t, ExtractionNode>> resulting_nodes;
         tbb::concurrent_vector<std::pair<std::size_t, ExtractionWay>> resulting_ways;
         tbb::concurrent_vector<boost::optional<InputRestrictionContainer>> resulting_restrictions;
+        tbb::concurrent_vector<boost::optional<CondRestrictionContainer>> resulting_conditional_restrictions;
 
         // setup restriction parser
         const RestrictionParser restriction_parser(scripting_environment);
@@ -188,6 +189,7 @@ int Extractor::run(ScriptingEnvironment &scripting_environment)
             resulting_nodes.clear();
             resulting_ways.clear();
             resulting_restrictions.clear();
+            resulting_conditional_restrictions.clear();
 
             scripting_environment.ProcessElements(osm_elements,
                                                   restriction_parser,

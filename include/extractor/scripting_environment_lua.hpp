@@ -60,13 +60,14 @@ class Sol2ScriptingEnvironment final : public ScriptingEnvironment
     void ProcessTurn(ExtractionTurn &turn) override;
     void ProcessSegment(ExtractionSegment &segment) override;
 
-    void
-    ProcessElements(const std::vector<osmium::memory::Buffer::const_iterator> &osm_elements,
-                    const RestrictionParser &restriction_parser,
-                    tbb::concurrent_vector<std::pair<std::size_t, ExtractionNode>> &resulting_nodes,
-                    tbb::concurrent_vector<std::pair<std::size_t, ExtractionWay>> &resulting_ways,
-                    tbb::concurrent_vector<boost::optional<InputRestrictionContainer>>
-                        &resulting_restrictions) override;
+    void ProcessElements(
+        const std::vector<osmium::memory::Buffer::const_iterator> &osm_elements,
+        const RestrictionParser &restriction_parser,
+        tbb::concurrent_vector<std::pair<std::size_t, ExtractionNode>> &resulting_nodes,
+        tbb::concurrent_vector<std::pair<std::size_t, ExtractionWay>> &resulting_ways,
+        tbb::concurrent_vector<boost::optional<InputRestrictionContainer>> &resulting_restrictions,
+        tbb::concurrent_vector<boost::optional<CondRestrictionContainer>>
+            &resulting_conditional_restrictions) override;
 
   private:
     void InitContext(LuaScriptingContext &context);

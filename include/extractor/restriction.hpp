@@ -2,6 +2,7 @@
 #define RESTRICTION_HPP
 
 #include "util/typedefs.hpp"
+#include "util/coordinate.hpp"
 
 #include <limits>
 
@@ -84,6 +85,12 @@ struct InputRestrictionContainer
     {
         return InputRestrictionContainer(SPECIAL_EDGEID, SPECIAL_EDGEID, SPECIAL_EDGEID);
     }
+};
+
+struct CondRestrictionContainer : InputRestrictionContainer
+{
+    std::string condition;
+    util::Coordinate via_coordinate;
 };
 
 struct CmpRestrictionContainerByFrom

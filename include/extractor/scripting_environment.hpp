@@ -63,8 +63,8 @@ class ScriptingEnvironment
                     const RestrictionParser &restriction_parser,
                     tbb::concurrent_vector<std::pair<std::size_t, ExtractionNode>> &resulting_nodes,
                     tbb::concurrent_vector<std::pair<std::size_t, ExtractionWay>> &resulting_ways,
-                    tbb::concurrent_vector<boost::optional<InputRestrictionContainer>>
-                        &resulting_restrictions) = 0;
+                    tbb::concurrent_vector<boost::optional<InputRestrictionContainer>> &resulting_restrictions,
+                    tbb::concurrent_vector<boost::optional<CondRestrictionContainer>> &resulting_conditional_restrictions) = 0;
 };
 }
 }

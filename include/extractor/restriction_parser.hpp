@@ -45,6 +45,7 @@ class RestrictionParser
     template <typename RestrictionT>
     boost::optional<RestrictionT> TryParse(const osmium::Relation &relation,
                                            const std::vector<std::string> &filters) const;
+    const std::vector<std::string>& GetRestrictions() const;
 
   private:
     bool ShouldIgnoreRestriction(const std::string &except_tag_string) const;

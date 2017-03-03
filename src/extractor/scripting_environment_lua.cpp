@@ -480,7 +480,7 @@ void Sol2ScriptingEnvironment::ProcessElements(
     tbb::concurrent_vector<std::pair<std::size_t, ExtractionNode>> &resulting_nodes,
     tbb::concurrent_vector<std::pair<std::size_t, ExtractionWay>> &resulting_ways,
     tbb::concurrent_vector<boost::optional<InputRestrictionContainer>> &resulting_restrictions,
-    tbb::concurrent_vector<boost::optional<InputRestrictionContainer>> &resulting_conditional_restrictions)
+    tbb::concurrent_vector<boost::optional<CondRestrictionContainer>> &resulting_conditional_restrictions)
 {
     // parse OSM entities in parallel, store in resulting vectors
     tbb::parallel_for(
@@ -516,12 +516,12 @@ void Sol2ScriptingEnvironment::ProcessElements(
                     break;
                 case osmium::item_type::relation:
                     std::vector<std::string> TurnRestrictionPatterns{"restriction"};
-                    for (const auto &namespaced : restriction_parser::restrictions)
+                    for (const auto &namespaced : restriction_parser.GetRestrictions())
                     {
                         TurnRestrictionPatterns.push_back("restriction:" + namespaced);
                     }
                     resulting_restrictions.push_back(restriction_parser.TryParse(
-                        static_cast<const osmium::Relation &>(*entity), TurnRestrictionPatterns));
+                        static_cast<const osmium::Relation &>(*entity), static_cast<const std::vector<std::string> &>(TurnRestrictionPatterns));
 
                     //std::vector<std::string> ConditionalRestrictionPatterns{"^restriction.*:conditional$"};
                     //resulting_conditional_restrictions.push_back(restriction_parser.TryParse(

@@ -46,6 +46,12 @@ RestrictionParser::RestrictionParser(ScriptingEnvironment &scripting_environment
     }
 }
 
+const std::vector<std::string>& RestrictionParser::GetRestrictions() const
+{
+    if (restrictions.size() > 0)
+        return restrictions;
+}
+
 /**
  * Tries to parse a relation as a turn restriction. This can fail for a number of
  * reasons. The return type is a boost::optional<T>.
@@ -54,8 +60,8 @@ RestrictionParser::RestrictionParser(ScriptingEnvironment &scripting_environment
  * in the corresponding profile. We use it for both namespacing restrictions, as in
  * restriction:motorcar as well as whitelisting if its in except:motorcar.
  */
-template <typename objectT>
-boost::optional<InputRestrictionContainer>
+template <typename RestrictionContainerT>
+boost::optional<RestrictionContainerT>
 RestrictionParser::TryParse(const osmium::Relation &relation,
                             const std::vector<std::string> &patterns) const
 {
@@ -66,7 +72,7 @@ RestrictionParser::TryParse(const osmium::Relation &relation,
     }
 
     osmium::tags::KeyFilter filter(false);
-    patterns.for_each(patterns.begin(), patterns.end(), [&filter](const &pattern) {
+    for_each(patterns.begin(), patterns.end(), [&filter](const auto &pattern) {
         filter.add(true, pattern);
     });
 
@@ -74,7 +80,7 @@ RestrictionParser::TryParse(const osmium::Relation &relation,
     for (const auto &namespaced : restrictions)
         filter.add(true, "restriction:" + namespaced);
 
-    const osmium::TagList &tag_list = osmium_type.tags();
+    const osmium::TagList &tag_list = relation.tags();
 
     osmium::tags::KeyFilter::iterator fi_begin(filter, tag_list.begin(), tag_list.end());
     osmium::tags::KeyFilter::iterator fi_end(filter, tag_list.end(), tag_list.end());
@@ -86,7 +92,7 @@ RestrictionParser::TryParse(const osmium::Relation &relation,
     }
 
     // check if the restriction should be ignored
-    const char *except = osmium_type.get_value_by_key("except");
+    const char *except = relation.get_value_by_key("except");
     if (except != nullptr && ShouldIgnoreRestriction(except))
     {
         return {};
@@ -115,7 +121,7 @@ RestrictionParser::TryParse(const osmium::Relation &relation,
         }
     }
 
-    InputRestrictionContainer restriction_container(is_only_restriction);
+    RestrictionContainerT restriction_container(is_only_restriction);
 
     for (const auto &member : relation.members())
     {
