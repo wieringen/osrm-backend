@@ -515,18 +515,16 @@ void Sol2ScriptingEnvironment::ProcessElements(
                     resulting_ways.push_back(std::make_pair(x, std::move(result_way)));
                     break;
                 case osmium::item_type::relation:
-                    std::vector<std::string> TurnRestrictionPatterns{"restriction"};
-                    for (const auto &namespaced : restriction_parser.GetRestrictions())
                     {
-                        TurnRestrictionPatterns.push_back("restriction:" + namespaced);
+                        std::vector<std::string> TurnRestrictionPatterns{"restriction"};
+                        for (const auto &namespaced : restriction_parser.GetRestrictions())
+                        {
+                            TurnRestrictionPatterns.push_back("restriction:" + namespaced);
+                        }
+                        resulting_restrictions.push_back(restriction_parser.TryParse<InputRestrictionContainer>(
+                            static_cast<const osmium::Relation &>(*entity), TurnRestrictionPatterns));
+                        break;
                     }
-                    resulting_restrictions.push_back(restriction_parser.TryParse(
-                        static_cast<const osmium::Relation &>(*entity), static_cast<const std::vector<std::string> &>(TurnRestrictionPatterns));
-
-                    //std::vector<std::string> ConditionalRestrictionPatterns{"^restriction.*:conditional$"};
-                    //resulting_conditional_restrictions.push_back(restriction_parser.TryParse(
-                    //    static_cast<const osmium::Relation &>(*entity), ConditionalRestrictionPatterns));
-                    break;
                 default:
                     break;
                 }
