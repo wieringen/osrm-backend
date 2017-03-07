@@ -5,10 +5,10 @@ var OSRM = require('..');
 var path = require('path');
 
 var app = express();
-var osrm = new OSRM(path.join(__dirname,"../test/data/monaco.osrm"));
+var osrm = new OSRM(path.join(__dirname,"../test/data/berlin.osrm"));
 
 // Accepts a query like:
-// http://localhost:8888?start=13.438640,52.519930&end=13.415852,52.513191
+// http://localhost:8888?start=13.414307,52.521835&end=13.402290,52.523728
 app.get('/', function(req, res) {
     if (!req.query.start || !req.query.end) {
         return res.json({"error":"invalid start and end query"});

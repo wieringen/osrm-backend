@@ -49,7 +49,7 @@ You should see the compiled binaries in `build/unit_tests`, you can then run eac
 For `library-tests` you will need to provide a path to the test data:
 
 ```
-./library-tests ../../test/data/monaco.osrm
+./library-tests ../../test/data/berlin.osrm
 ```
 
 ## Cucumber
