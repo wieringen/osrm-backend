@@ -141,7 +141,7 @@ void ExtractionContainers::FlushVectors()
  * Processes the collected data and serializes it.
  * At this point nodes are still referenced by their OSM id.
  *
- * - map start-end nodes of ways to ways used int restrictions to compute compressed
+ * - map start-end nodes of ways to ways used in restrictions to compute compressed
  *   trippe representation
  * - filter nodes list to nodes that are referenced by ways
  * - merge edges with nodes to include location of start/end points and serialize
@@ -641,7 +641,7 @@ void ExtractionContainers::WriteNodes(std::ofstream &file_out_stream) const
     util::Log() << "Processed " << max_internal_node_id << " nodes";
 }
 
-void ExtractionContainers::WriteRestrictions(const std::string &path) const
+void ExtractionContainers::WriteRestrictions(const std::string &path)
 {
     // serialize restrictions
     std::ofstream restrictions_out_stream;
@@ -656,11 +656,15 @@ void ExtractionContainers::WriteRestrictions(const std::string &path) const
     {
         if (SPECIAL_NODEID != restriction_container.restriction.from.node &&
             SPECIAL_NODEID != restriction_container.restriction.via.node &&
-            SPECIAL_NODEID != restriction_container.restriction.to.node)
+            SPECIAL_NODEID != restriction_container.restriction.to.node &&
+            !restriction_container.restriction.condition.empty())
         {
             restrictions_out_stream.write((char *)&(restriction_container.restriction),
                                           sizeof(TurnRestriction));
             ++written_restriction_count;
+        } else {
+            // save unconditional turn restriction to memory, for use in ebg later
+            unconditional_turn_restrictions.push_back(restriction_container.restriction);
         }
     }
     restrictions_out_stream.seekp(count_position);
