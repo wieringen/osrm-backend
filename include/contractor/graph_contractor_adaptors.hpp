@@ -35,7 +35,7 @@ std::vector<ContractorEdge> adaptToContractorInput(InputEdgeContainer input_edge
                            std::max(input_edge.data.weight, 1),
                            input_edge.data.duration,
                            1,
-                           input_edge.data.edge_id,
+                           input_edge.data.turn_id,
                            false,
                            input_edge.data.forward ? true : false,
                            input_edge.data.backward ? true : false);
@@ -45,7 +45,7 @@ std::vector<ContractorEdge> adaptToContractorInput(InputEdgeContainer input_edge
                            std::max(input_edge.data.weight, 1),
                            input_edge.data.duration,
                            1,
-                           input_edge.data.edge_id,
+                           input_edge.data.turn_id,
                            false,
                            input_edge.data.backward ? true : false,
                            input_edge.data.forward ? true : false);

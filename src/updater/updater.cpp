@@ -147,8 +147,8 @@ void CheckWeightsConsistency(
 
     for (auto &edge : edge_based_edge_list)
     {
-        BOOST_ASSERT(edge.data.edge_id < current_edge_data.size());
-        auto geometry_id = current_edge_data[edge.data.edge_id].via_geometry;
+        BOOST_ASSERT(edge.data.turn_id < current_edge_data.size());
+        auto geometry_id = current_edge_data[edge.data.turn_id].via_geometry;
         BOOST_ASSERT(geometry_id.id < geometry_indices.size());
 
         const auto &weights = geometry_id.forward ? forward_weight_list : reverse_weight_list;

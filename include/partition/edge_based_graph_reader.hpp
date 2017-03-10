@@ -49,7 +49,7 @@ splitBidirectionalEdges(const std::vector<extractor::EdgeBasedEdge> &edges)
     {
         directed.emplace_back(edge.source,
                               edge.target,
-                              edge.data.edge_id,
+                              edge.data.turn_id,
                               std::max(edge.data.weight, 1),
                               edge.data.duration,
                               edge.data.forward,
@@ -57,7 +57,7 @@ splitBidirectionalEdges(const std::vector<extractor::EdgeBasedEdge> &edges)
 
         directed.emplace_back(edge.target,
                               edge.source,
-                              edge.data.edge_id,
+                              edge.data.turn_id,
                               std::max(edge.data.weight, 1),
                               edge.data.duration,
                               edge.data.backward,
@@ -91,7 +91,7 @@ prepareEdgesForUsageInGraph(std::vector<extractor::EdgeBasedEdge> edges)
         EdgeBasedGraphEdge reverse_edge;
         forward_edge.source = reverse_edge.source = source;
         forward_edge.target = reverse_edge.target = target;
-        forward_edge.data.edge_id = reverse_edge.data.edge_id = edges[i].data.edge_id;
+        forward_edge.data.turn_id = reverse_edge.data.turn_id = edges[i].data.turn_id;
         forward_edge.data.weight = reverse_edge.data.weight = INVALID_EDGE_WEIGHT;
         forward_edge.data.duration = reverse_edge.data.duration = MAXIMAL_EDGE_DURATION_INT_30;
         forward_edge.data.forward = reverse_edge.data.backward = true;
