@@ -121,7 +121,6 @@ int Extractor::run(ScriptingEnvironment &scripting_environment)
     tbb::task_scheduler_init init(number_of_threads);
 
     {
-        // call ParseOSMData here
         auto turn_restrictions = ParseOSMData(scripting_environment, number_of_threads);
 
         // Transform the node-based graph that OSM is based on into an edge-based graph
